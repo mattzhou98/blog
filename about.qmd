@@ -8,8 +8,7 @@ about:
   links:
     - icon: linkedin
       text: LinkedIn
-      # Replace PROFILENAME with your LinkedIn vanity URL
-      href: https://www.linkedin.com/in/PROFILENAME
+      href: https://www.linkedin.com/in/matthewzhou98
     - icon: github
       text: GitHub
       href: https://github.com/mattzhou98
@@ -37,6 +36,6 @@ Analytics 4 so I can see what resonates.
 ## A note to recruiters
 I'm looking for roles where I can build digital products and use data to make them
 better. If that's you, the fastest way to reach me is
-[LinkedIn](https://www.linkedin.com/in/PROFILENAME) or
+[LinkedIn](https://www.linkedin.com/in/matthewzhou98) or
 [email](mailto:mattzhou@umich.edu).
 :::

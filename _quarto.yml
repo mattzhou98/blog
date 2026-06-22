@@ -47,8 +47,7 @@ website:
         href: https://github.com/mattzhou98
         aria-label: GitHub profile
       - icon: linkedin
-        # Replace PROFILENAME with your LinkedIn vanity URL (e.g. matthew-zhou-1a2b3c)
-        href: https://www.linkedin.com/in/PROFILENAME
+        href: https://www.linkedin.com/in/matthewzhou98
         aria-label: LinkedIn profile
 
   page-footer:
