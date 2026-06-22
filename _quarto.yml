@@ -11,7 +11,7 @@ website:
   # This is a "project site" (repo named `blog`), so it lives under /blog.
   site-url: "https://mattzhou98.github.io/blog"
   repo-url: "https://github.com/mattzhou98/blog"
-  favicon: profile.jpg
+  favicon: favicon.png
 
   # --- Google Analytics (GA4) -------------------------------------------------
   google-analytics:
