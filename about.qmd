@@ -1,6 +1,6 @@
 ---
 title: "Matthew Zhou"
-subtitle: "Digital builder · Code × Analytics"
+subtitle: "Digital builder · Code × Data × AI"
 about:
   template: trestles
   image: profile.jpg
@@ -21,11 +21,9 @@ I build for the web and measure what I build. My core strengths sit at the
 intersection of **coding** — shipping clean front-end and tooling — and
 **analysis & AI** — turning traffic and behavior data into decisions.
 
-Right now I'm a participant in the **2026 Digital Summer Clinic**, a program run
-by the Center for Digital Engagement and Ann Arbor SPARK that places interns with
-high-tech startups to drive their digital marketing. As part of the clinic I'm
-working a hands-on project with a SPARK incubator company, studying for the
-**Google Analytics certification**, and writing here every week about what I learn.
+Right now I'm doing hands-on digital work with early-stage startups — building,
+running campaigns, and digging into the data behind them — and studying analytics
+along the way. I write here every week about what I'm learning.
 
 This blog is itself a small proof of the work: it's written in
 [Quarto](https://quarto.org), version-controlled on GitHub, deployed

@@ -1,6 +1,6 @@
 # Field Notes — Matthew Zhou's blog
 
-A professional blog for the **2026 Digital Summer Clinic**, built with
+A professional blog by **Matthew Zhou**, built with
 [Quarto](https://quarto.org), hosted free on **GitHub Pages**, and tracked with
 **Google Analytics 4**.
 
@@ -44,9 +44,15 @@ pieces fit.
    title: "My post title"
    description: "One-sentence summary that shows on the home page."
    date: "2026-06-29"
-   categories: [Digital Summer Clinic, Analytics]
+   type: ml                  # home-page commit-log tag: feat / data / ml (optional)
+   categories: [AI, Python]
    ---
    ```
+   The home page renders posts as a **git commit log**. The `type:` field is the
+   colored tag on each row — `feat` (indigo, code), `data` (teal, analytics), or
+   `ml` (amber, AI/ML). If you omit `type:`, it's inferred from `categories`
+   (AI/ML → `ml`, analytics/GA4/data → `data`, otherwise `feat`). `categories`
+   also become the `#tag` labels on the row.
 3. Write below the `---` in plain Markdown.
 4. Publish:
 
@@ -126,8 +132,7 @@ confirms the bundled Pandoc/Deno are working.)
 The site is pre-wired for GA4 in `_quarto.yml`. You just need to drop in your own
 **Measurement ID**:
 
-1. Go to <https://analytics.google.com> and sign in with your clinic Google
-   account.
+1. Go to <https://analytics.google.com> and sign in with your Google account.
 2. **Admin** (bottom-left gear) → **Create** → **Property**. Name it
    `Field Notes`, set your time zone/currency, **Next**, then complete the
    business details and **Create**.
@@ -153,7 +158,7 @@ The site is pre-wired for GA4 in `_quarto.yml`. You just need to drop in your ow
 > Quarto injects `gtag.js` for you. Do **not** paste Google's own gtag snippet
 > anywhere, or every hit will be counted twice.
 
-## Link it to LinkedIn (clinic requirement)
+## Link it to LinkedIn
 
 - On **LinkedIn**: add this blog as your website (Contact info → Website), and
   consider a featured post linking here.

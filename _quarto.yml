@@ -7,7 +7,7 @@ project:
 
 website:
   title: "matthew.zhou"
-  description: "Code × analytics — field notes from the Digital Summer Clinic and beyond."
+  description: "Code × data × AI — field notes on building for the web, measuring what matters, and applying AI/ML."
   # This is a "project site" (repo named `blog`), so it lives under /blog.
   site-url: "https://mattzhou98.github.io/blog"
   repo-url: "https://github.com/mattzhou98/blog"
@@ -34,9 +34,6 @@ website:
       - text: "about"
         href: about.qmd
     right:
-      - icon: rss
-        href: index.xml
-        aria-label: RSS feed
       - icon: github
         href: https://github.com/mattzhou98
         aria-label: GitHub profile
