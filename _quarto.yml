@@ -6,20 +6,14 @@ project:
     browser: true
 
 website:
-  title: "Matthew Zhou"
+  title: "matthew.zhou"
   description: "Code × analytics — field notes from the Digital Summer Clinic and beyond."
-  # site-url is required for the RSS feed and for canonical/OpenGraph URLs.
   # This is a "project site" (repo named `blog`), so it lives under /blog.
-  # (No trailing slash.)
   site-url: "https://mattzhou98.github.io/blog"
   repo-url: "https://github.com/mattzhou98/blog"
   favicon: profile.jpg
 
   # --- Google Analytics (GA4) -------------------------------------------------
-  # Replace G-XXXXXXXXXX with YOUR GA4 Measurement ID (see README.md → "Google
-  # Analytics"). Quarto auto-injects gtag.js — do NOT add your own gtag snippet
-  # or hits will be double-counted. cookie-consent gates GA until the visitor
-  # acknowledges the banner.
   google-analytics:
     tracking-id: "G-C3DGYCXYP5"
     anonymize-ip: true
@@ -31,13 +25,13 @@ website:
   # ---------------------------------------------------------------------------
 
   navbar:
-    background: primary
+    background: light
     search: true
     pinned: true
     left:
-      - text: "Posts"
+      - text: "posts"
         href: index.qmd
-      - text: "About"
+      - text: "about"
         href: about.qmd
     right:
       - icon: rss
@@ -57,8 +51,10 @@ website:
 
 format:
   html:
-    theme: cosmo
-    css: styles.css
+    theme: theme.scss
+    include-in-header: head.html
     toc: true
     code-copy: true
     anchor-sections: true
+    grid:
+      body-width: 860px
