@@ -21,7 +21,7 @@ website:
   # or hits will be double-counted. cookie-consent gates GA until the visitor
   # acknowledges the banner.
   google-analytics:
-    tracking-id: "G-XXXXXXXXXX"
+    tracking-id: "G-C3DGYCXYP5"
     anonymize-ip: true
     version: 4
   cookie-consent:
