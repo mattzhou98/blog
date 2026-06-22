@@ -51,7 +51,9 @@ website:
 
 format:
   html:
-    theme: theme.scss
+    theme:
+      light: theme.scss
+      dark: theme-dark.scss
     include-in-header: head.html
     toc: true
     code-copy: true
