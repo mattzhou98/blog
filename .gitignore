@@ -2,7 +2,10 @@
 /_site/
 /.quarto/
 
-# Quarto computational cache (only used if posts run code; harmless to ignore).
+# Quarto computational cache. This is a Markdown-only blog (no executable code),
+# so _freeze is never produced and is safe to ignore. NOTE: if you ever add
+# executable R/Python/Julia code with `execute: freeze: auto`, REMOVE this line
+# and commit /_freeze/ so CI doesn't need a language runtime to render.
 /_freeze/
 
 # OS / editor cruft

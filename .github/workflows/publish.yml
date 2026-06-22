@@ -6,13 +6,16 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Permissions required for the native GitHub Pages deployment.
+# Permissions required for the native GitHub Pages deployment (deploy-pages
+# uses OIDC). contents:read is enough to check out the source; the artifact
+# pipeline needs pages:write + id-token:write.
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Never run two deploys at once; let an in-flight deploy finish.
+# Never run two deploys at once; let an in-flight deploy finish so a fast
+# follow-up push can't clobber a release that is mid-flight.
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -22,19 +25,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
+      # Installs Quarto in the runner — this is what makes "no local Quarto at
+      # deploy time" true. Markdown-only blog: no R/Python/Jupyter needed.
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
       - name: Render site
-        run: quarto render
+        uses: quarto-dev/quarto-actions/render@v2
 
       - name: Configure Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
+      # Quarto's website output dir is _site (set in _quarto.yml).
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
@@ -47,4 +53,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
