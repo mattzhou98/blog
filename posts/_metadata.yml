@@ -1,0 +1,8 @@
+# Defaults applied to every post in this folder.
+author: "Matthew Zhou"
+date-format: long
+toc: true
+toc-depth: 3
+
+# Show a "Back to top" and reading time on posts.
+back-to-top-navigation: true

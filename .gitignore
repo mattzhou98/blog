@@ -1,0 +1,14 @@
+# Quarto build artifacts — these are generated, never commit them.
+/_site/
+/.quarto/
+
+# Quarto computational cache (only used if posts run code; harmless to ignore).
+/_freeze/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.tmp
+.vscode/
+
+**/*.quarto_ipynb

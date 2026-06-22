@@ -1,0 +1,57 @@
+project:
+  type: website
+  output-dir: _site
+  preview:
+    port: 4200
+    browser: true
+
+website:
+  title: "Matthew Zhou"
+  description: "Code × analytics — field notes from the Digital Summer Clinic and beyond."
+  site-url: "https://mattzhou98.github.io/blog"
+  repo-url: "https://github.com/mattzhou98/blog"
+  favicon: profile.jpg
+
+  # --- Google Analytics (GA4) -------------------------------------------------
+  # Replace G-XXXXXXXXXX with YOUR GA4 Measurement ID (see README.md → "Google
+  # Analytics"). Until you do, tracking simply no-ops; the site still builds.
+  google-analytics: "G-XXXXXXXXXX"
+  cookie-consent:
+    type: implied
+    style: simple
+    palette: light
+  # ---------------------------------------------------------------------------
+
+  navbar:
+    background: primary
+    search: true
+    pinned: true
+    left:
+      - text: "Posts"
+        href: index.qmd
+      - text: "About"
+        href: about.qmd
+    right:
+      - icon: rss
+        href: index.xml
+        aria-label: RSS feed
+      - icon: github
+        href: https://github.com/mattzhou98
+        aria-label: GitHub profile
+      - icon: linkedin
+        # Replace PROFILENAME with your LinkedIn vanity URL (e.g. matthew-zhou-1a2b3c)
+        href: https://www.linkedin.com/in/PROFILENAME
+        aria-label: LinkedIn profile
+
+  page-footer:
+    border: true
+    left: "© 2026 Matthew Zhou"
+    right: "Built with [Quarto](https://quarto.org) · Hosted on GitHub Pages"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    code-copy: true
+    anchor-sections: true

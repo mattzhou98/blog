@@ -1,0 +1,50 @@
+/* ------------------------------------------------------------------ *
+ * Matthew Zhou — Field Notes
+ * Light background, dark text (per clinic guidance: easy to read).
+ * Small, intentional tweaks on top of the Cosmo Bootswatch theme.
+ * ------------------------------------------------------------------ */
+
+:root {
+  --mz-accent: #2c5f8a;
+  --mz-muted: #6c757d;
+}
+
+/* Comfortable reading measure for post bodies */
+main.content {
+  max-width: 52rem;
+}
+
+/* Listing: a little more breathing room between posts */
+.quarto-listing {
+  margin-top: 1.25rem;
+}
+
+.quarto-post {
+  padding-block: 1rem;
+  border-bottom: 1px solid #ececec;
+}
+
+.quarto-post .listing-title {
+  font-weight: 600;
+}
+
+.quarto-post .listing-description {
+  color: var(--mz-muted);
+}
+
+/* Category pills */
+.quarto-category {
+  background: #eef3f8;
+  border-color: #dbe6f0;
+}
+
+/* Footer: quiet, not shouty */
+.nav-footer {
+  font-size: 0.875rem;
+  color: var(--mz-muted);
+}
+
+/* Links pick up the accent on hover */
+a {
+  text-decoration-thickness: 0.06em;
+}
