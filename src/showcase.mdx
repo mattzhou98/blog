@@ -1,0 +1,339 @@
+import RunPython from './components/RunPython.tsx';
+import PyNotebook from './components/PyNotebook.tsx';
+import GrowthModel from './components/GrowthModel.tsx';
+import Mermaid from './components/Mermaid.tsx';
+import Graphviz from './components/Graphviz.tsx';
+import { u } from './lib/paths';
+
+# Lab — everything you can put in a post
+
+This page is a living reference for **everything available in a blog post** (and
+anywhere else on the site). Each item shows the **source** you'd write, then the
+**live result** right below it. Posts live in `src/content/blog/` as `.md` (prose)
+or `.mdx` (prose **plus** interactive components).
+
+<div class="callout">
+  <div class="ct">heads up — import paths</div>
+  Component import paths below are written as they'd appear in a post at
+  <code>src/content/blog/your-post.mdx</code> (two folders deep, so
+  <code>../../components/…</code>). Only <code>.mdx</code> files can import
+  components; plain <code>.md</code> is prose-only.
+</div>
+
+## Prose basics (Markdown)
+
+Plain Markdown gives you headings, **bold**, _italic_, `inline code`,
+[links](https://astro.build), lists, quotes, rules, and tables.
+
+````md
+## A heading
+
+**Bold**, _italic_, `inline code`, and a [link](https://example.com).
+
+- a bullet
+- another, with a nested item
+  - nested
+
+1. first
+2. second
+
+> A blockquote.
+
+| metric | value |
+| ------ | ----- |
+| posts  | 1     |
+````
+
+Renders as:
+
+- a bullet
+- another, with a nested item
+  - nested
+
+> A blockquote.
+
+| metric | value |
+| ------ | ----- |
+| posts  | 1     |
+
+## Code blocks
+
+Fenced code blocks are syntax-highlighted at build (Shiki, `github-dark` theme).
+
+`````md
+```python
+def compound(v0, g, t):
+    return v0 * (1 + g) ** t
+```
+`````
+
+Renders as:
+
+```python
+def compound(v0, g, t):
+    return v0 * (1 + g) ** t
+```
+
+## Math (KaTeX)
+
+Inline math with single `$`, display math with double `$$`.
+
+````md
+Inline: $e^{i\pi} + 1 = 0$ and a fraction $\frac{a}{b}$.
+
+$$
+v_t = v_0 (1 + g)^t
+$$
+````
+
+Renders as:
+
+Inline: $e^{i\pi} + 1 = 0$ and a fraction $\frac{a}{b}$.
+
+$$
+v_t = v_0 (1 + g)^t
+$$
+
+## Cross-references (figures, tables, equations)
+
+A custom plugin gives Quarto-style **numbered** figures/tables/equations with
+auto-resolving `@`-references and a hover preview. Label a block with
+`:::fig{#fig-x}` / `:::tbl{#tbl-x}` / `:::eqn{#eq-x}`, then reference it with
+`@fig-x` / `@tbl-x` / `@eq-x` (note equations use the `eq-` prefix).
+
+### Figure
+
+````md
+:::fig{#fig-views}
+![weekly views](/blog/figs/exec-views.svg)
+
+Weekly views over the first 12 weeks.
+:::
+
+As @fig-views shows, growth compounds.
+````
+
+Renders as (the caption is auto-numbered; hover the reference for a preview):
+
+:::fig{#fig-views}
+<img src={u('figs/exec-views.svg')} alt="weekly views, first 12 weeks" />
+
+Weekly views over the first 12 weeks (generated at build by `make_figs.py`).
+:::
+
+As @fig-views shows, growth compounds.
+
+### Table
+
+````md
+:::tbl{#tbl-stats}
+| metric | value |
+| ------ | ----- |
+| mean   | 305   |
+| max    | 980   |
+
+Summary statistics for the sample.
+:::
+
+See @tbl-stats for the numbers.
+````
+
+Renders as:
+
+:::tbl{#tbl-stats}
+| metric | value |
+| ------ | ----- |
+| mean   | 305   |
+| max    | 980   |
+
+Summary statistics for the sample.
+:::
+
+See @tbl-stats for the numbers.
+
+### Equation
+
+````md
+:::eqn{#eq-model}
+$$ v_t = v_0 (1 + g)^t $$
+:::
+
+The projection follows @eq-model.
+````
+
+Renders as:
+
+:::eqn{#eq-model}
+$$ v_t = v_0 (1 + g)^t $$
+:::
+
+The projection follows @eq-model.
+
+## Callouts & design-system bits
+
+These are plain HTML classes from the design system — usable in any `.mdx` post
+or `.astro` page.
+
+````mdx
+<div class="callout">
+  <div class="ct">note</div>
+  A callout: a labeled, accented box for asides.
+</div>
+
+<p class="section-label">a mono section label</p>
+
+<div class="island">
+  <p class="k">card label</p>
+  Any content sits in an island card.
+</div>
+
+<p class="tag3"><span class="c">code</span><span class="x">×</span><span class="d">data</span><span class="x">×</span><span class="a">AI</span></p>
+````
+
+Renders as:
+
+<div class="callout">
+  <div class="ct">note</div>
+  A callout: a labeled, accented box for asides.
+</div>
+
+<p class="section-label">a mono section label</p>
+
+<div class="island">
+  <p class="k">card label</p>
+  Any content sits in an island card.
+</div>
+
+<p class="tag3"><span class="c">code</span><span class="x">×</span><span class="d">data</span><span class="x">×</span><span class="a">AI</span></p>
+
+## Diagrams
+
+`Mermaid` and `Graphviz` render diagrams from a string, client-side.
+
+### Mermaid
+
+````mdx
+import Mermaid from '../../components/Mermaid.tsx';
+
+<Mermaid client:visible chart={`flowchart LR
+  A[Write .mdx] --> B[git push]
+  B --> C[Action builds]
+  C --> D[Live on Pages]`} />
+````
+
+Renders as:
+
+<Mermaid client:visible chart={`flowchart LR
+  A[Write .mdx] --> B[git push]
+  B --> C[Action builds]
+  C --> D[Live on Pages]`} />
+
+### Graphviz
+
+````mdx
+import Graphviz from '../../components/Graphviz.tsx';
+
+<Graphviz client:visible dot={`digraph { rankdir=LR; node [shape=box];
+  Write -> Commit -> Deploy }`} />
+````
+
+Renders as:
+
+<Graphviz client:visible dot={`digraph { rankdir=LR; node [shape=box];
+  Write -> Commit -> Deploy }`} />
+
+## Runnable code (Python in the browser)
+
+`RunPython` is a single editable, runnable cell. Python runs in a Web Worker via
+WebAssembly (Pyodide) — off the main thread, so a runaway loop can't freeze the
+page. Pass `code` to seed it.
+
+````mdx
+import RunPython from '../../components/RunPython.tsx';
+
+<RunPython client:visible code={`for i in range(5):
+    print('row', i, '->', i * i)`} />
+````
+
+Renders as:
+
+<RunPython client:visible code={`for i in range(5):
+    print('row', i, '->', i * i)`} />
+
+## Notebooks
+
+`PyNotebook` is a multi-cell notebook sharing one kernel, so variables persist
+between cells. Pass `cells` (an array of strings).
+
+````mdx
+import PyNotebook from '../../components/PyNotebook.tsx';
+
+<PyNotebook client:visible cells={[`x = 21`, `x * 2`]} />
+````
+
+Renders as:
+
+<PyNotebook client:visible cells={[`x = 21`, `x * 2`]} />
+
+### Scientific notebook (numpy / pandas / matplotlib)
+
+Add `scientific` and each cell lazily downloads only the packages it imports;
+DataFrames render as HTML tables and matplotlib figures as inline SVG. (First run
+downloads the stack, then it's cached.)
+
+````mdx
+<PyNotebook client:visible scientific cells={[
+`import numpy as np
+np.random.seed(0)
+np.random.randn(5).round(3)`,
+`import pandas as pd
+pd.DataFrame({"week": [1, 2, 3], "views": [120, 180, 240]})`,
+`import matplotlib.pyplot as plt
+plt.plot([1, 2, 3, 4], [1, 4, 9, 16], marker="o")
+plt.title("squares")`
+]} />
+````
+
+Renders as:
+
+<PyNotebook client:visible scientific cells={[
+`import numpy as np
+np.random.seed(0)
+np.random.randn(5).round(3)`,
+`import pandas as pd
+pd.DataFrame({"week": [1, 2, 3], "views": [120, 180, 240]})`,
+`import matplotlib.pyplot as plt
+plt.plot([1, 2, 3, 4], [1, 4, 9, 16], marker="o")
+plt.title("squares")`
+]} />
+
+## Stateful widgets
+
+`GrowthModel` is a reusable React island with its own state — drag the sliders
+and the chart recomputes live. Reuse it with different props.
+
+````mdx
+import GrowthModel from '../../components/GrowthModel.tsx';
+
+<GrowthModel client:visible />
+<GrowthModel client:visible title="long horizon" weeks={52} />
+````
+
+Renders as:
+
+<GrowthModel client:visible />
+<GrowthModel client:visible title="long horizon" weeks={52} />
+
+## Hydration directives
+
+Every interactive component needs a `client:*` directive saying *when* its
+JavaScript loads. Everything without one ships as static HTML (zero JS).
+
+| directive | when it hydrates |
+| --------- | ---------------- |
+| `client:load` | immediately on page load |
+| `client:idle` | when the browser goes idle |
+| `client:visible` | when it scrolls into view — the best default |
+| `client:only="react"` | skip server render; render only in the browser |
+
+That's the whole toolkit. Copy any block above into a `.mdx` post and adjust.
