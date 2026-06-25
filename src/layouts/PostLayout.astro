@@ -23,49 +23,4 @@ const iso = date.toISOString().slice(0, 10);
     </p>
     <slot />
   </article>
-
-  <!-- Cross-reference hover preview: hover "Figure 1" / "(1)" / "Table 1" and a
-       popup shows a clone of the target. -->
-  <script is:inline>
-    (function () {
-      var pop, hideT;
-      function ensure() {
-        if (!pop) { pop = document.createElement('div'); pop.className = 'xref-pop'; pop.setAttribute('role', 'tooltip'); document.body.appendChild(pop); }
-        return pop;
-      }
-      function show(link) {
-        var id = (link.getAttribute('href') || '').slice(1);
-        var target = id && document.getElementById(id);
-        if (!target) return;
-        clearTimeout(hideT);
-        var p = ensure();
-        p.innerHTML = '';
-        var clone = target.cloneNode(true);
-        clone.removeAttribute('id');
-        p.appendChild(clone);
-        p.style.display = 'block';
-        var r = link.getBoundingClientRect();
-        var pw = p.offsetWidth, ph = p.offsetHeight;
-        var docW = document.documentElement.clientWidth;
-        var left = r.left + window.scrollX + r.width / 2 - pw / 2;
-        left = Math.max(window.scrollX + 8, Math.min(left, window.scrollX + docW - pw - 8));
-        var top = r.top + window.scrollY - ph - 10;
-        if (top < window.scrollY + 8) top = r.bottom + window.scrollY + 10;
-        p.style.left = left + 'px';
-        p.style.top = top + 'px';
-      }
-      function hide() { hideT = setTimeout(function () { if (pop) pop.style.display = 'none'; }, 140); }
-      function linkAt(e) { return e.target.closest ? e.target.closest('a.xref-link') : null; }
-      document.addEventListener('mouseover', function (e) {
-        var l = linkAt(e);
-        if (l) show(l);
-        else if (pop && e.target.closest && e.target.closest('.xref-pop')) clearTimeout(hideT);
-      });
-      document.addEventListener('mouseout', function (e) {
-        if (linkAt(e) || (pop && e.target.closest && e.target.closest('.xref-pop'))) hide();
-      });
-      document.addEventListener('focusin', function (e) { var l = linkAt(e); if (l) show(l); });
-      document.addEventListener('focusout', function (e) { if (linkAt(e)) hide(); });
-    })();
-  </script>
 </BaseLayout>

@@ -69,7 +69,7 @@ const swBase = u();
     </footer>
 
     <!-- Implied-consent notice: GA loads on arrival; this just informs and can be dismissed. -->
-    <div id="consent" class="consent" hidden>
+    <div id="consent" class="consent">
       <span>This site uses Google Analytics cookies to understand what readers find useful. <a href={u('about/')}>More</a>.</span>
       <button id="consent-ok" type="button">Got it</button>
     </div>
@@ -87,11 +87,14 @@ const swBase = u();
         try {
           var c = document.getElementById('consent');
           if (!c) return;
-          if (!localStorage.getItem('fn-consent')) c.hidden = false;
+          // .consent is display:none by default; reveal it only until acknowledged.
+          // (Toggling the [hidden] attribute doesn't work here because the .consent
+          // rule sets an explicit display, which overrides [hidden]'s display:none.)
+          if (!localStorage.getItem('fn-consent')) c.classList.add('show');
           var ok = document.getElementById('consent-ok');
           if (ok) ok.addEventListener('click', function () {
             localStorage.setItem('fn-consent', '1');
-            c.hidden = true;
+            c.classList.remove('show');
           });
         } catch (e) {}
       })();
@@ -105,14 +108,60 @@ const swBase = u();
       }
     </script>
 
+    <script is:inline>
+      // Cross-reference hover preview: hovering a fig/tbl/eqn reference pops up a
+      // clone of the target. Works on any page that has such references.
+      (function () {
+        var pop, hideT;
+        function ensure() {
+          if (!pop) { pop = document.createElement('div'); pop.className = 'xref-pop'; pop.setAttribute('role', 'tooltip'); document.body.appendChild(pop); }
+          return pop;
+        }
+        function show(link) {
+          var id = (link.getAttribute('href') || '').slice(1);
+          var target = id && document.getElementById(id);
+          if (!target) return;
+          clearTimeout(hideT);
+          var p = ensure();
+          p.innerHTML = '';
+          var clone = target.cloneNode(true);
+          clone.removeAttribute('id');
+          p.appendChild(clone);
+          p.style.display = 'block';
+          var r = link.getBoundingClientRect();
+          var pw = p.offsetWidth, ph = p.offsetHeight;
+          var docW = document.documentElement.clientWidth;
+          var left = r.left + window.scrollX + r.width / 2 - pw / 2;
+          left = Math.max(window.scrollX + 8, Math.min(left, window.scrollX + docW - pw - 8));
+          var top = r.top + window.scrollY - ph - 10;
+          if (top < window.scrollY + 8) top = r.bottom + window.scrollY + 10;
+          p.style.left = left + 'px';
+          p.style.top = top + 'px';
+        }
+        function hide() { hideT = setTimeout(function () { if (pop) pop.style.display = 'none'; }, 140); }
+        function linkAt(e) { return e.target.closest ? e.target.closest('a.xref-link') : null; }
+        document.addEventListener('mouseover', function (e) {
+          var l = linkAt(e);
+          if (l) show(l);
+          else if (pop && e.target.closest && e.target.closest('.xref-pop')) clearTimeout(hideT);
+        });
+        document.addEventListener('mouseout', function (e) {
+          if (linkAt(e) || (pop && e.target.closest && e.target.closest('.xref-pop'))) hide();
+        });
+        document.addEventListener('focusin', function (e) { var l = linkAt(e); if (l) show(l); });
+        document.addEventListener('focusout', function (e) { if (linkAt(e)) hide(); });
+      })();
+    </script>
+
     <style>
       .consent {
         position: fixed; left: 1rem; right: 1rem; bottom: 1rem; max-width: 720px; margin: 0 auto;
-        display: flex; gap: 1rem; align-items: center; justify-content: space-between;
+        display: none; gap: 1rem; align-items: center; justify-content: space-between;
         background: var(--fn-surface); border: 1px solid var(--fn-line); border-radius: 10px;
         padding: 0.7rem 0.9rem; font-size: 0.82rem; color: var(--fn-ink-muted);
         box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12); z-index: 100;
       }
+      .consent.show { display: flex; }
       .consent button {
         font-family: var(--fn-mono); font-size: 0.78rem; cursor: pointer; white-space: nowrap;
         border: 1px solid var(--fn-line); border-radius: 8px; padding: 0.3rem 0.7rem;
