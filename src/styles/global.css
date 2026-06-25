@@ -122,7 +122,11 @@ h1, h2, h3 { font-family: var(--fn-sans); font-weight: 750; letter-spacing: -0.0
 /* ---- cross-references: numbered figures / tables / equations ---- */
 figure.x-fig { margin: 1.8rem 0; }
 figure.x-fig p { margin: 0; }
-figure.x-fig img { width: 100%; border: 1px solid var(--fn-line); border-radius: 10px; display: block; }
+/* Figures sit on a fixed light "plate": charts/diagrams exported with dark ink
+   (e.g. matplotlib SVGs) stay readable in dark mode, where a transparent
+   background would render their black labels/ticks/axes invisible. */
+figure.x-fig img { width: 100%; border: 1px solid var(--fn-line); border-radius: 10px; display: block;
+  background: #f8f9fb; padding: 12px; }
 .x-tbl { margin: 1.8rem 0; }
 .x-tbl table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
 .x-tbl th, .x-tbl td { border-bottom: 1px solid var(--fn-line); padding: 0.45rem 0.7rem; text-align: left; }
