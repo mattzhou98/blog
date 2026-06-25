@@ -1,0 +1,10 @@
+---
+// Theme-aware figure image: renders a light-theme and a dark-theme source; CSS
+// (figure.x-fig .fig-light / .fig-dark in global.css) shows the right one for the
+// active [data-theme]. Use inside a :::fig for charts/diagrams whose ink color
+// can't read on both backgrounds.
+interface Props { light: string; dark: string; alt?: string; }
+const { light, dark, alt = '' } = Astro.props;
+---
+<img class="fig-light" src={light} alt={alt} />
+<img class="fig-dark" src={dark} alt={alt} />

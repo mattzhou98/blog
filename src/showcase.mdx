@@ -3,6 +3,7 @@ import PyNotebook from './components/PyNotebook.tsx';
 import GrowthModel from './components/GrowthModel.tsx';
 import Mermaid from './components/Mermaid.tsx';
 import Graphviz from './components/Graphviz.tsx';
+import ThemeImg from './components/ThemeImg.astro';
 import { u } from './lib/paths';
 
 # Lab — everything you can put in a post
@@ -103,9 +104,16 @@ auto-resolving `@`-references and a hover preview. Label a block with
 
 ### Figure
 
-````md
+For charts/diagrams whose ink color can't read on both backgrounds, `<ThemeImg>`
+swaps a light and a dark variant by theme. (For an image that already works on
+both — a photo, say — a plain `![alt](./img.png)` is fine.)
+
+````mdx
+import ThemeImg from '../../components/ThemeImg.astro';
+import { u } from '../../lib/paths';
+
 :::fig{#fig-views}
-![weekly views](/blog/figs/exec-views.svg)
+<ThemeImg light={u('figs/views-light.svg')} dark={u('figs/views-dark.svg')} alt="weekly views" />
 
 Weekly views over the first 12 weeks.
 :::
@@ -113,12 +121,12 @@ Weekly views over the first 12 weeks.
 As @fig-views shows, growth compounds.
 ````
 
-Renders as (the caption is auto-numbered; hover the reference for a preview):
+Renders as (flip the theme toggle — the figure swaps; hover the reference for a preview):
 
 :::fig{#fig-views}
-<img src={u('figs/exec-views.svg')} alt="weekly views, first 12 weeks" />
+<ThemeImg light={u('figs/exec-views-light.svg')} dark={u('figs/exec-views-dark.svg')} alt="weekly views, first 12 weeks" />
 
-Weekly views over the first 12 weeks (generated at build by `make_figs.py`).
+Weekly views over the first 12 weeks (generated at build by `make_figs.py`, one variant per theme).
 :::
 
 As @fig-views shows, growth compounds.

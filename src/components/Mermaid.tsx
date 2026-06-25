@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
+import { useTheme } from '../lib/useTheme';
 
-// Client island: renders a Mermaid diagram from a `chart` string. Quarto does
-// this natively (```{mermaid}```); in Astro it's a small component loading
-// mermaid from the CDN. Same "diagram as code", different plumbing.
+// Client island: renders a Mermaid diagram from a `chart` string, loading mermaid
+// from the CDN. Picks the mermaid theme from the site theme and re-renders when
+// the reader toggles light/dark.
 let mermaidPromise: Promise<any> | null = null;
 function getMermaid() {
   if (mermaidPromise) return mermaidPromise;
@@ -13,18 +14,21 @@ function getMermaid() {
 
 export default function Mermaid({ chart }: { chart: string }) {
   const ref = useRef<HTMLDivElement>(null);
+  const theme = useTheme();
+  // Stable per-island id, varied by theme — avoids mermaid's duplicate-id throw
+  // across islands and across toggles (don't derive it from chart length).
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
   useEffect(() => {
     let alive = true;
-    const dark = document.documentElement.dataset.theme === 'dark';
     getMermaid()
       .then(async (mermaid) => {
-        mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'neutral' });
-        const id = 'm' + Math.abs(chart.length * 2654435761 % 1e8);
+        mermaid.initialize({ startOnLoad: false, theme: theme === 'dark' ? 'dark' : 'neutral' });
+        const id = 'm' + uid + (theme === 'dark' ? 'd' : 'l');
         const { svg } = await mermaid.render(id, chart);
         if (alive && ref.current) ref.current.innerHTML = svg;
       })
       .catch((e) => { if (ref.current) ref.current.textContent = String(e); });
     return () => { alive = false; };
-  }, [chart]);
+  }, [chart, theme, uid]);
   return <div className="island" style={{ textAlign: 'center' }} ref={ref}>rendering…</div>;
 }

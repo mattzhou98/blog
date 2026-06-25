@@ -1,14 +1,10 @@
-"""Prebuild figure + stats generator — the missing Quarto piece, recovered in Astro.
+"""Figure generator — emits a LIGHT and a DARK variant of each figure so it stays
+readable under either site theme (the page swaps them via CSS on [data-theme]).
 
-Runs before `astro build` (npm `prebuild` hook). It executes real Python
-(numpy + matplotlib) and emits (1) an SVG figure into public/figs/ and (2) the
-summary stats into src/data/exec.json. The Astro `executable` post shows the
-code below, references the figure inside a numbered `:::fig`, and fills the
-table from the JSON — so it mirrors Quarto's "code -> output" cells, just split
-across a build step instead of inline.
+Run manually with `npm run figs` (needs Python + numpy + matplotlib). Not part of
+the build — the SVGs are committed.
 """
 from pathlib import Path
-import json
 import numpy as np
 import matplotlib
 matplotlib.use("svg")
@@ -18,32 +14,32 @@ rng = np.random.default_rng(7)
 weeks = np.arange(1, 13)
 views = np.clip((80 * (1.18 ** weeks) + rng.normal(0, 40, weeks.size)).round(), 0, None).astype(int)
 
-# --- figure ------------------------------------------------------------------
-ACCENT = "#4b54ff"
-fig, ax = plt.subplots(figsize=(6.4, 3.2))
-ax.plot(weeks, views, marker="o", lw=2.2, color=ACCENT)
-ax.fill_between(weeks, views, alpha=0.12, color=ACCENT)
-ax.set_xlabel("week")
-ax.set_ylabel("views")
-ax.set_xticks(weeks)
-ax.grid(alpha=0.2)
-for s in ("top", "right"):
-    ax.spines[s].set_visible(False)
-fig.tight_layout()
+OUT = Path(__file__).resolve().parent.parent / "public" / "figs"
+OUT.mkdir(parents=True, exist_ok=True)
 
-svg = Path(__file__).resolve().parent.parent / "public" / "figs" / "exec-views.svg"
-svg.parent.mkdir(parents=True, exist_ok=True)
-fig.savefig(svg, format="svg", transparent=True)
 
-# --- table stats -------------------------------------------------------------
-stats = {
-    "total": int(views.sum()),
-    "mean": round(float(views.mean()), 1),
-    "max": int(views.max()),
-    "weeks": int(weeks.size),
-}
-data = Path(__file__).resolve().parent.parent / "src" / "data" / "exec.json"
-data.parent.mkdir(parents=True, exist_ok=True)
-data.write_text(json.dumps(stats))
+def render(name, ink, line):
+    """Render one transparent variant. `ink` colors the text/ticks/axes/grid so
+    it contrasts with the target theme's background; `line` is the series color."""
+    plt.rcParams.update({
+        "text.color": ink, "axes.labelcolor": ink, "axes.edgecolor": ink,
+        "xtick.color": ink, "ytick.color": ink, "grid.color": ink,
+    })
+    fig, ax = plt.subplots(figsize=(6.4, 3.2))
+    ax.plot(weeks, views, marker="o", lw=2.2, color=line)
+    ax.fill_between(weeks, views, alpha=0.12, color=line)
+    ax.set_xlabel("week")
+    ax.set_ylabel("views")
+    ax.set_xticks(weeks)
+    ax.grid(alpha=0.3)
+    for s in ("top", "right"):
+        ax.spines[s].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(OUT / name, format="svg", transparent=True)
+    plt.close(fig)
 
-print(f"[make_figs] wrote {svg.name} + exec.json -> {stats}")
+
+# light theme -> dark ink on the light page; dark theme -> light ink on the dark page
+render("exec-views-light.svg", ink="#3a3f4b", line="#4b54ff")
+render("exec-views-dark.svg", ink="#cdd3e0", line="#7e84ff")
+print("[make_figs] wrote exec-views-light.svg + exec-views-dark.svg")
