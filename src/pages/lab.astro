@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GrowthModel from '../components/GrowthModel.tsx';
+import RunPython from '../components/RunPython.tsx';
+---
+<BaseLayout title="Lab — matthew.zhou" description="Interactive widgets — stateful charts and runnable Python, right in the page.">
+  <h1 class="post-title" style="margin-top:2rem">Lab</h1>
+  <p class="post-desc">A scratchpad for the interactive pieces I build into posts — small, self-contained widgets that run right in the page, no server round-trip.</p>
+
+  <p class="section-label">stateful widgets</p>
+  <p class="prose">Reusable React components with their own state. Drag the inputs and the projection + chart recompute live. It's the same <code>&lt;GrowthModel&gt;</code> component mounted twice with different props — each hydrated independently, and only when it scrolls into view.</p>
+  <GrowthModel client:visible title="model A · steady cadence" weeks={26} />
+  <GrowthModel client:visible title="model B · long horizon" weeks={52} />
+
+  <p class="section-label">runnable python</p>
+  <p class="prose">Real Python, executed in your browser via WebAssembly (Pyodide) — off the main thread in a Web Worker, so even an infinite loop can't freeze the page. Edit the code and run it; nothing is sent anywhere.</p>
+  <RunPython client:visible />
+
+  <div class="callout"><div class="ct">how this page works</div>
+    Everything here is an <strong>island</strong>: the page ships as static HTML with zero JavaScript, and each widget loads its code only when it scrolls into view. That's what lets interactive components live inside otherwise-static posts without slowing the whole page down.
+  </div>
+</BaseLayout>

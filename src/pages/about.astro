@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { u } from '../lib/paths';
+---
+<BaseLayout title="About — matthew.zhou" description="Matthew Zhou — digital builder. Code × data × AI.">
+  <section style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;margin-top:2rem">
+    <img src={u('profile.jpg')} alt="Matthew Zhou" width="140" height="140"
+         style="border-radius:14px;object-fit:cover;border:1px solid var(--fn-line);flex:0 0 auto" />
+    <div>
+      <h1 class="post-title" style="margin:0">Matthew Zhou</h1>
+      <p class="post-desc" style="margin:.3rem 0 .6rem">Digital builder · Code × Data × AI</p>
+      <p style="font-family:var(--fn-mono);font-size:.82rem;display:flex;gap:1.1rem;flex-wrap:wrap;margin:0">
+        <a href="https://www.linkedin.com/in/matthewzhou98">LinkedIn</a>
+        <a href="https://github.com/mattzhou98">GitHub</a>
+        <a href="mailto:mattzhou@umich.edu">Email</a>
+      </p>
+    </div>
+  </section>
+
+  <div class="prose" style="margin-top:1.6rem">
+    <p>I build for the web and measure what I build. My core strengths sit at the
+    intersection of <strong>coding</strong> — shipping clean front-end and tooling — and
+    <strong>analysis &amp; AI</strong> — turning traffic and behavior data into decisions.</p>
+
+    <p>Right now I'm doing hands-on digital work with early-stage startups — building,
+    running campaigns, and digging into the data behind them — and studying analytics
+    along the way. I write here every week about what I'm learning.</p>
+
+    <p>This blog is itself a small proof of the work: it's built with
+    <a href="https://astro.build">Astro</a>, version-controlled on GitHub, deployed
+    automatically to GitHub Pages on every push, and instrumented with Google
+    Analytics 4 so I can see what resonates.</p>
+  </div>
+
+  <div class="callout"><div class="ct">a note to recruiters</div>
+    I'm looking for roles where I can build digital products and use data to make them
+    better. If that's you, the fastest way to reach me is
+    <a href="https://www.linkedin.com/in/matthewzhou98">LinkedIn</a> or
+    <a href="mailto:mattzhou@umich.edu">email</a>.
+  </div>
+</BaseLayout>

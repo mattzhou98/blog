@@ -1,17 +1,13 @@
-# Quarto build artifacts — these are generated, never commit them.
-/_site/
-/.quarto/
-
-# Quarto computational cache. This is a Markdown-only blog (no executable code),
-# so _freeze is never produced and is safe to ignore. NOTE: if you ever add
-# executable R/Python/Julia code with `execute: freeze: auto`, REMOVE this line
-# and commit /_freeze/ so CI doesn't need a language runtime to render.
-/_freeze/
-
-# OS / editor cruft
+# build output
+dist/
+# astro cache (content collections, types)
+.astro/
+# deps
+node_modules/
+# logs / os cruft
+*.log
 .DS_Store
 Thumbs.db
-*.tmp
+# editor
 .vscode/
-
-**/*.quarto_ipynb
+.idea/

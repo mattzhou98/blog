@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import GrowthModel from '../components/GrowthModel.tsx';
+import { u } from '../lib/paths';
+
+// BUILD-TIME data: counted once at build and baked straight into the HTML.
+// No client fetch, no "—" placeholder flash (contrast the Quarto instrument).
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+const count = posts.length;
+const latestISO = posts[0]?.data.date.toISOString().slice(0, 10) ?? '—';
+const totalWords = posts.reduce((n, p) => n + (p.body ?? '').split(/\s+/).filter(Boolean).length, 0);
+---
+<BaseLayout title="matthew.zhou — Field Notes">
+  <section class="hero">
+    <div class="hero-main">
+      <p class="tag3"><span class="c">code</span><span class="x">×</span><span class="d">data</span><span class="x">×</span><span class="a">AI</span></p>
+      <h1 class="hero-title">Field&nbsp;Notes</h1>
+      <p class="hero-sub">Building for the web, measuring what matters, and applying AI/ML — with interactive islands and runnable code right in the page. <strong>One post a week.</strong></p>
+    </div>
+    <aside class="island" style="flex:0 0 250px;align-self:stretch;margin:0">
+      <p class="k">instrument · build-time</p>
+      <div style="display:flex;justify-content:space-between;font-family:var(--fn-mono);font-size:.8rem;padding:.45rem 0;border-top:1px solid var(--fn-line-soft)"><span style="color:var(--fn-ink-muted)">posts</span><span>{count}</span></div>
+      <div style="display:flex;justify-content:space-between;font-family:var(--fn-mono);font-size:.8rem;padding:.45rem 0;border-top:1px solid var(--fn-line-soft)"><span style="color:var(--fn-ink-muted)">latest</span><span>{latestISO}</span></div>
+      <div style="display:flex;justify-content:space-between;font-family:var(--fn-mono);font-size:.8rem;padding:.45rem 0;border-top:1px solid var(--fn-line-soft)"><span style="color:var(--fn-ink-muted)">words</span><span>{totalWords.toLocaleString('en-US')}</span></div>
+      <div style="display:flex;justify-content:space-between;font-family:var(--fn-mono);font-size:.72rem;padding:.45rem 0;border-top:1px solid var(--fn-line-soft);color:var(--fn-teal-ink)"><span>baked at build</span><span>✓ no fetch</span></div>
+    </aside>
+  </section>
+
+  <p class="section-label">try it — a stateful island</p>
+  <GrowthModel client:visible />
+
+  <p class="section-label">recent</p>
+  <div class="commit-log">
+    <div class="logbar"><span class="prompt">$</span> git log --posts <span class="cmt">// recent field notes</span></div>
+    {posts.map((p) => (
+      <a class="commit" href={u(`posts/${p.id}/`)}>
+        <span class="graph">&#9679;</span>
+        <span class="hash">{p.data.date.toISOString().slice(0, 10)}</span>
+        <span class={`tt ${p.data.type}`}>{p.data.type}</span>
+        <span class="ctitle">{p.data.title}</span>
+        <span class="clabels">{p.data.categories.map((c) => <span class="lbl">{c}</span>)}</span>
+      </a>
+    ))}
+  </div>
+</BaseLayout>

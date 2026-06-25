@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { u } from '../lib/paths';
+// Emitted to dist/404.html — GitHub Pages serves it for any unknown URL under /blog/.
+---
+<BaseLayout title="Not found — matthew.zhou" description="Page not found.">
+  <section style="text-align:center;padding:5rem 0 4rem">
+    <p class="tag3" style="justify-content:center"><span class="c">code</span><span class="x">×</span><span class="d">data</span><span class="x">×</span><span class="a">AI</span></p>
+    <h1 class="hero-title" style="font-size:clamp(3rem,12vw,6rem)">404</h1>
+    <p class="post-desc">That page doesn't exist — it may have moved or never been here.</p>
+    <p style="margin-top:1.4rem"><a href={u()}>← back to Field Notes</a></p>
+  </section>
+</BaseLayout>

@@ -1,0 +1,123 @@
+---
+import '../styles/global.css';
+import 'katex/dist/katex.min.css';
+import { u } from '../lib/paths';
+interface Props { title: string; description?: string; }
+const {
+  title,
+  description = 'Code × data × AI — field notes on building for the web, measuring what matters, and applying AI/ML.',
+} = Astro.props;
+
+// The Pyodide service worker ships in public/, so it lives under the site base
+// path (/blog/pyodide-sw.js). Precompute the base here and hand it to the inline
+// registration script via define:vars (import.meta.env is not substituted inside
+// inline scripts).
+const swBase = u();
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={u('favicon.svg')} />
+    <link rel="icon" type="image/png" href={u('favicon.png')} />
+    <link rel="alternate" type="application/rss+xml" title="matthew.zhou — Field Notes" href={u('index.xml')} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Google Analytics 4 (GA4), IP anonymized. Implied consent via the notice bar below. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C3DGYCXYP5"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-C3DGYCXYP5', { anonymize_ip: true });
+    </script>
+
+    <!-- set theme before paint to avoid a flash -->
+    <script is:inline>
+      (function () {
+        var t = localStorage.getItem('fn-theme');
+        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="wrap row">
+        <a class="brand" href={u()}>matthew.zhou</a>
+        <a class="link" href={u()}>posts</a>
+        <a class="link" href={u('lab/')}>lab</a>
+        <a class="link" href={u('about/')}>about</a>
+        <span class="spacer"></span>
+        <a class="link" href="https://github.com/mattzhou98" aria-label="GitHub profile" rel="me">github</a>
+        <a class="link" href="https://www.linkedin.com/in/matthewzhou98" aria-label="LinkedIn profile" rel="me">linkedin</a>
+        <button class="toggle" id="theme-toggle" aria-label="Toggle theme">◐ theme</button>
+      </div>
+    </nav>
+
+    <main class="wrap">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">© 2026 Matthew Zhou · Built with <a href="https://astro.build">Astro</a> · Hosted on GitHub Pages</div>
+    </footer>
+
+    <!-- Implied-consent notice: GA loads on arrival; this just informs and can be dismissed. -->
+    <div id="consent" class="consent" hidden>
+      <span>This site uses Google Analytics cookies to understand what readers find useful. <a href={u('about/')}>More</a>.</span>
+      <button id="consent-ok" type="button">Got it</button>
+    </div>
+
+    <script is:inline>
+      document.getElementById('theme-toggle')?.addEventListener('click', function () {
+        var cur = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = cur;
+        localStorage.setItem('fn-theme', cur);
+      });
+    </script>
+
+    <script is:inline>
+      (function () {
+        try {
+          var c = document.getElementById('consent');
+          if (!c) return;
+          if (!localStorage.getItem('fn-consent')) c.hidden = false;
+          var ok = document.getElementById('consent-ok');
+          if (ok) ok.addEventListener('click', function () {
+            localStorage.setItem('fn-consent', '1');
+            c.hidden = true;
+          });
+        } catch (e) {}
+      })();
+    </script>
+
+    <script define:vars={{ swBase }}>
+      if ('serviceWorker' in navigator) {
+        addEventListener('load', function () {
+          navigator.serviceWorker.register(swBase + 'pyodide-sw.js').catch(function () {});
+        });
+      }
+    </script>
+
+    <style>
+      .consent {
+        position: fixed; left: 1rem; right: 1rem; bottom: 1rem; max-width: 720px; margin: 0 auto;
+        display: flex; gap: 1rem; align-items: center; justify-content: space-between;
+        background: var(--fn-surface); border: 1px solid var(--fn-line); border-radius: 10px;
+        padding: 0.7rem 0.9rem; font-size: 0.82rem; color: var(--fn-ink-muted);
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12); z-index: 100;
+      }
+      .consent button {
+        font-family: var(--fn-mono); font-size: 0.78rem; cursor: pointer; white-space: nowrap;
+        border: 1px solid var(--fn-line); border-radius: 8px; padding: 0.3rem 0.7rem;
+        background: color-mix(in srgb, var(--fn-accent) 12%, transparent); color: var(--fn-accent-ink);
+      }
+    </style>
+  </body>
+</html>

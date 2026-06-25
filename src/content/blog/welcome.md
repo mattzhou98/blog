@@ -1,11 +1,11 @@
 ---
-title: "Building This Blog as Code: Quarto, GitHub Pages, and Google Analytics"
+title: "Building This Blog as Code: Astro, GitHub Pages, and Google Analytics"
 description: >
   Why I treat my blog like a software project — and why I wired in analytics
   before the first reader ever arrived.
 date: "2026-06-22"
 type: feat
-categories: [Quarto, Analytics, Web]
+categories: [Astro, Analytics, Web]
 ---
 
 First post. Before I write about anything else, a quick note on how this blog is
@@ -19,8 +19,10 @@ choice. I went a different route on purpose. My core strengths are **coding** an
 place to talk about it. Instead of a hosted editor, this site is a small software
 project:
 
-- **Quarto** turns plain Markdown into a clean, fast website. No database, no
-  plugins to keep patched — just text files I can version and diff.
+- **Astro** turns plain Markdown into a clean, fast website — static HTML by
+  default, with interactive components dropped in only where a post actually needs
+  them. No database, no plugins to keep patched — just text files I can version
+  and diff.
 - **GitHub** stores the source. Every change is a commit with a message, so the
   blog has a full history.
 - **GitHub Actions** rebuilds and deploys the site automatically every time I

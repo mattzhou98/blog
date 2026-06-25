@@ -1,4 +1,4 @@
-name: Publish blog
+name: Deploy blog (Astro)
 
 # Build on every push to main, and allow manual runs from the Actions tab.
 on:
@@ -6,9 +6,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Permissions required for the native GitHub Pages deployment (deploy-pages
-# uses OIDC). contents:read is enough to check out the source; the artifact
-# pipeline needs pages:write + id-token:write.
+# Permissions required for the native GitHub Pages deployment (deploy-pages uses
+# OIDC). contents:read is enough to check out the source; the artifact pipeline
+# needs pages:write + id-token:write.
 permissions:
   contents: read
   pages: write
@@ -27,22 +27,29 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v7
 
-      # Installs Quarto in the runner — this is what makes "no local Quarto at
-      # deploy time" true. Markdown-only blog: no R/Python/Jupyter needed.
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
 
-      - name: Render site
-        uses: quarto-dev/quarto-actions/render@v2
+      # Reproducible install from package-lock.json (no Python step needed — the
+      # interactive islands are client-side WebAssembly; nothing is generated at
+      # build time).
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
 
       - name: Configure Pages
         uses: actions/configure-pages@v6
 
-      # Quarto's website output dir is _site (set in _quarto.yml).
+      # Astro's output dir is dist/ (base path /blog is baked into every URL).
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: _site
+          path: dist
 
   deploy:
     needs: build

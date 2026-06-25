@@ -1,0 +1,17 @@
+---
+import { getCollection, render } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
+
+// Posts live at /blog/posts/<slug>/ — same shape as the old Quarto URLs, so the
+// base path (/blog) doesn't double up and existing links keep resolving.
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<PostLayout post={post}>
+  <Content />
+</PostLayout>
