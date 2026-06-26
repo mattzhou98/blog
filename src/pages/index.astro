@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import GrowthModel from '../components/GrowthModel.tsx';
+import Life from '../components/Life.tsx';
 import { u } from '../lib/paths';
 
 // BUILD-TIME data: counted once at build and baked straight into the HTML.
@@ -29,8 +29,8 @@ const totalWords = posts.reduce((n, p) => n + (p.body ?? '').split(/\s+/).filter
     </aside>
   </section>
 
-  <p class="section-label">try it — a stateful island</p>
-  <GrowthModel client:visible />
+  <p class="section-label">try it — conway's game of life</p>
+  <Life client:visible />
 
   <p class="section-label">recent</p>
   <div class="commit-log">

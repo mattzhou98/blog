@@ -4,6 +4,8 @@ dist/
 .astro/
 # deps
 node_modules/
+# design exports / archives dropped in the repo (not source)
+*.zip
 # logs / os cruft
 *.log
 .DS_Store

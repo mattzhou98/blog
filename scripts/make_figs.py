@@ -40,6 +40,6 @@ def render(name, ink, line):
 
 
 # light theme -> dark ink on the light page; dark theme -> light ink on the dark page
-render("exec-views-light.svg", ink="#3a3f4b", line="#4b54ff")
-render("exec-views-dark.svg", ink="#cdd3e0", line="#7e84ff")
+render("exec-views-light.svg", ink="#3a3f4b", line="#10a368")
+render("exec-views-dark.svg", ink="#cdd3e0", line="#44e08a")
 print("[make_figs] wrote exec-views-light.svg + exec-views-dark.svg")

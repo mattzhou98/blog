@@ -1,25 +1,31 @@
 /* ==========================================================================
-   Field Notes — design system. Palette, fonts, and a technical/mono feel.
-   Light + dark via [data-theme].
+   Field Notes — design system.  HYBRID THEME (Terminal × Blueprint).
+   Phosphor-green accent, near-black instrument dark mode, blueprint grid.
+   Light + dark via [data-theme]. Drop-in replacement — no markup changes.
    ========================================================================== */
 :root {
-  --fn-accent: #4b54ff; --fn-accent-ink: #2f37d6;
+  /* phosphor-green family, contrast-tuned for paper */
+  --fn-accent: #10a368; --fn-accent-ink: #0a7a4c;
   --fn-teal: #0f9b8e;   --fn-teal-ink: #0c7f74;
-  --fn-amber: #e0902a;  --fn-amber-ink: #bd7515;
-  --fn-ink: #14161c;    --fn-ink-muted: #5b6473;
-  --fn-paper: #f6f7f9;  --fn-surface: #ffffff;
-  --fn-line: #e6e8ee;   --fn-line-soft: #eef0f4;
+  --fn-amber: #e0902a;  --fn-amber-ink: #b5791a;
+  --fn-ink: #0e1116;    --fn-ink-muted: #5a6470;
+  --fn-paper: #f7f9fb;  --fn-surface: #ffffff;
+  --fn-line: #e2e6ec;   --fn-line-soft: #eceff3;
+  /* cool blueprint grid (kept off the accent hue on purpose) */
+  --fn-grid: rgba(40, 86, 160, 0.05); --fn-grid-2: rgba(40, 86, 160, 0.085);
   --fn-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
   --fn-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --fn-display: "Space Grotesk", var(--fn-sans);
 }
 :root[data-theme="dark"] {
-  --fn-accent: #7e84ff; --fn-accent-ink: #b4b9ff;
+  /* phosphor green on near-black — the instrument look */
+  --fn-accent: #44e08a; --fn-accent-ink: #7debb0;
   --fn-teal: #2bd4c0;   --fn-teal-ink: #74e6d8;
   --fn-amber: #e9b059;  --fn-amber-ink: #f0c884;
-  --fn-ink: #e8eaf1;    --fn-ink-muted: #9aa3b4;
-  --fn-paper: #0c0e13;  --fn-surface: #14171f;
-  --fn-line: #262c39;   --fn-line-soft: #1b212c;
+  --fn-ink: #e7e9ed;    --fn-ink-muted: #828a95;
+  --fn-paper: #0a0b0d;  --fn-surface: #0e1115;
+  --fn-line: #20242b;   --fn-line-soft: #171a20;
+  --fn-grid: rgba(120, 150, 190, 0.06); --fn-grid-2: rgba(120, 150, 190, 0.10);
 }
 
 * { box-sizing: border-box; }
@@ -29,13 +35,15 @@ body {
   font-family: var(--fn-sans); font-size: 17px; line-height: 1.65;
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
 }
-/* faint engineering grid at the top — same motif as the Quarto theme */
+/* faint engineering grid at the top — blueprint motif, two scales */
 body::before {
-  content: ""; position: fixed; inset: 0 0 auto 0; height: 420px; z-index: -1; pointer-events: none;
+  content: ""; position: fixed; inset: 0 0 auto 0; height: 460px; z-index: -1; pointer-events: none;
   background-image:
-    linear-gradient(color-mix(in srgb, var(--fn-accent) 6%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--fn-accent) 6%, transparent) 1px, transparent 1px);
-  background-size: 28px 28px;
+    linear-gradient(var(--fn-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--fn-grid) 1px, transparent 1px),
+    linear-gradient(var(--fn-grid-2) 1px, transparent 1px),
+    linear-gradient(90deg, var(--fn-grid-2) 1px, transparent 1px);
+  background-size: 28px 28px, 28px 28px, 140px 140px, 140px 140px;
   -webkit-mask-image: linear-gradient(180deg, #000, transparent);
           mask-image: linear-gradient(180deg, #000, transparent);
 }
@@ -55,7 +63,8 @@ h1, h2, h3 { font-family: var(--fn-sans); font-weight: 750; letter-spacing: -0.0
 .nav a.link:hover { color: var(--fn-accent); }
 .nav .spacer { flex: 1; }
 .toggle { font-family: var(--fn-mono); font-size: 0.78rem; background: none; border: 1px solid var(--fn-line);
-  color: var(--fn-ink-muted); border-radius: 8px; padding: 0.25rem 0.55rem; cursor: pointer; }
+  color: var(--fn-ink-muted); border-radius: 7px; padding: 0.25rem 0.55rem; cursor: pointer; }
+.toggle:hover { color: var(--fn-accent); border-color: color-mix(in srgb, var(--fn-accent) 40%, var(--fn-line)); }
 
 /* ---- hero ---- */
 .hero { margin: 2.4rem 0 2.75rem; display: flex; gap: 2.2rem; align-items: center; }
@@ -76,26 +85,26 @@ h1, h2, h3 { font-family: var(--fn-sans); font-weight: 750; letter-spacing: -0.0
 .section-label::before { content: "// "; color: var(--fn-accent); }
 
 /* ---- git-log post listing (mirrors the Quarto listing.ejs) ---- */
-.commit-log { background: var(--fn-surface); border: 1px solid var(--fn-line); border-radius: 12px; overflow: hidden; }
+.commit-log { background: var(--fn-surface); border: 1px solid var(--fn-line); border-radius: 10px; overflow: hidden; }
 .commit-log .logbar { font-family: var(--fn-mono); font-size: 0.76rem; color: var(--fn-ink-muted);
   padding: 0.7rem 1rem; border-bottom: 1px solid var(--fn-line); }
 .commit-log .logbar .prompt { color: var(--fn-accent-ink); } .commit-log .logbar .cmt { opacity: 0.6; }
 .commit { display: grid; grid-template-columns: 16px 92px 46px 1fr auto; gap: 0.9rem; align-items: center;
   padding: 0.8rem 1rem; border-bottom: 1px solid var(--fn-line-soft); text-decoration: none; }
 .commit:last-child { border-bottom: none; }
-.commit:hover { background: color-mix(in srgb, var(--fn-accent) 4%, transparent); }
+.commit:hover { background: color-mix(in srgb, var(--fn-accent) 5%, transparent); }
 .commit .graph { color: var(--fn-accent); text-align: center; } .commit .hash { font-family: var(--fn-mono); font-size: 0.76rem; color: var(--fn-ink-muted); }
 .commit .ctitle { font-family: var(--fn-display); font-weight: 500; font-size: 1.04rem; color: var(--fn-ink); }
 .commit:hover .ctitle { color: var(--fn-accent-ink); }
 .tt { font-family: var(--fn-mono); font-size: 0.72rem; font-weight: 600; border-radius: 5px; padding: 0.05rem 0.4rem; text-align: center; }
-.tt.feat { color: var(--fn-accent-ink); background: color-mix(in srgb, var(--fn-accent) 10%, transparent); }
+.tt.feat { color: var(--fn-accent-ink); background: color-mix(in srgb, var(--fn-accent) 12%, transparent); }
 .tt.data { color: var(--fn-teal-ink); background: color-mix(in srgb, var(--fn-teal) 13%, transparent); }
 .tt.ml { color: var(--fn-amber-ink); background: color-mix(in srgb, var(--fn-amber) 15%, transparent); }
 .tt.log { color: var(--fn-ink-muted); background: color-mix(in srgb, var(--fn-ink-muted) 12%, transparent); }
 .clabels { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: flex-end; }
 .lbl { font-family: var(--fn-mono); font-size: 0.69rem; border-radius: 5px; padding: 0.05rem 0.45rem;
-  border: 1px solid color-mix(in srgb, var(--fn-accent) 18%, transparent);
-  background: color-mix(in srgb, var(--fn-accent) 6%, transparent); color: var(--fn-accent-ink); }
+  border: 1px solid color-mix(in srgb, var(--fn-accent) 22%, transparent);
+  background: color-mix(in srgb, var(--fn-accent) 7%, transparent); color: var(--fn-accent-ink); }
 .lbl::before { content: "#"; opacity: 0.5; }
 @media (max-width: 600px) { .commit { grid-template-columns: 16px 1fr; } .commit .hash, .commit .tt, .commit .ctitle, .commit .clabels { grid-column: 2; } .commit .clabels { justify-content: flex-start; } }
 
@@ -103,13 +112,13 @@ h1, h2, h3 { font-family: var(--fn-sans); font-weight: 750; letter-spacing: -0.0
 .post-cmd { font-family: var(--fn-mono); font-size: 0.8rem; color: var(--fn-ink-muted); margin: 2rem 0 0.75rem; }
 .post-cmd .prompt { color: var(--fn-accent-ink); font-weight: 700; } .post-cmd .cmt { opacity: 0.6; }
 .post-cmd .pt { font-weight: 600; border-radius: 5px; padding: 0.04rem 0.42rem; margin: 0 0.15ch;
-  color: var(--fn-accent-ink); background: color-mix(in srgb, var(--fn-accent) 10%, transparent); }
+  color: var(--fn-accent-ink); background: color-mix(in srgb, var(--fn-accent) 12%, transparent); }
 .post-title { font-family: var(--fn-display); font-size: clamp(2rem, 5vw, 2.8rem); letter-spacing: -0.03em; margin: 0 0 0.5rem; }
 .post-desc { color: var(--fn-ink-muted); font-size: 1.08rem; margin: 0 0 0.6rem; }
 .post-meta { font-family: var(--fn-mono); font-size: 0.78rem; color: var(--fn-ink-muted); border-top: 1px solid var(--fn-line); padding-top: 0.7rem; margin-bottom: 2rem; }
 .prose { font-size: 1.05rem; } .prose h2 { margin-top: 2.2rem; } .prose img { max-width: 100%; border-radius: 10px; }
 .prose pre { background: #0e1016; color: #e6e6e6; border: 1px solid #1c2030; border-radius: 10px; padding: 1rem; overflow-x: auto; font-size: 0.86rem; }
-.prose :not(pre) > code { background: color-mix(in srgb, var(--fn-accent) 9%, transparent); color: var(--fn-accent-ink);
+.prose :not(pre) > code { background: color-mix(in srgb, var(--fn-accent) 11%, transparent); color: var(--fn-accent-ink);
   padding: 0.08em 0.36em; border-radius: 5px; font-size: 0.88em; font-family: var(--fn-mono); }
 .callout { border: 1px solid var(--fn-line); border-left: 3px solid var(--fn-accent); background: var(--fn-surface);
   border-radius: 8px; padding: 0.9rem 1.1rem; margin: 1.5rem 0; }
@@ -161,7 +170,21 @@ a.xref-link:hover { color: var(--fn-accent); }
 .nb-rich th, .nb-rich td { border: 1px solid var(--fn-line); padding: 0.25rem 0.6rem; text-align: right; }
 .nb-rich th:first-child, .nb-rich td:first-child { text-align: left; }
 
-/* islands look at home in the design system */
-.island { background: var(--fn-surface); border: 1px solid var(--fn-line); border-radius: 14px; padding: 1.1rem 1.2rem; margin: 1.6rem 0; }
-.island .k { font-family: var(--fn-mono); font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fn-ink-muted); margin: 0 0 0.8rem; }
+/* islands look at home in the design system — now framed like instrument panels */
+.island { position: relative; background: var(--fn-surface); border: 1px solid var(--fn-line); border-radius: 10px; padding: 1.1rem 1.2rem; margin: 1.6rem 0; }
+/* blueprint corner ticks (4 L-marks, drawn in the padding gutter) */
+.island::after {
+  content: ""; position: absolute; inset: 7px; pointer-events: none; z-index: 1;
+  background:
+    linear-gradient(var(--fn-accent), var(--fn-accent)) left top / 13px 1.5px no-repeat,
+    linear-gradient(var(--fn-accent), var(--fn-accent)) left top / 1.5px 13px no-repeat,
+    linear-gradient(var(--fn-accent), var(--fn-accent)) right top / 13px 1.5px no-repeat,
+    linear-gradient(var(--fn-accent), var(--fn-accent)) right top / 1.5px 13px no-repeat,
+    linear-gradient(var(--fn-accent), var(--fn-accent)) left bottom / 13px 1.5px no-repeat,
+    linear-gradient(var(--fn-accent), var(--fn-accent)) left bottom / 1.5px 13px no-repeat,
+    linear-gradient(var(--fn-accent), var(--fn-accent)) right bottom / 13px 1.5px no-repeat,
+    linear-gradient(var(--fn-accent), var(--fn-accent)) right bottom / 1.5px 13px no-repeat;
+  opacity: 0.8;
+}
+.island .k { position: relative; z-index: 2; font-family: var(--fn-mono); font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fn-ink-muted); margin: 0 0 0.8rem; }
 .island .k::before { content: "// "; color: var(--fn-accent); }
