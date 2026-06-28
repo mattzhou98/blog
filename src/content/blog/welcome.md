@@ -1,55 +1,18 @@
 ---
-title: "Building This Blog as Code: Astro, GitHub Pages, and Google Analytics"
-description: >
-  Why I treat my blog like a software project — and why I wired in analytics
-  before the first reader ever arrived.
-date: "2026-06-22"
-type: feat
-categories: [Astro, Analytics, Web]
+title: "Starting My Internship at tour.video / LeaseMagnets"
+description: "I've joined tour.video / LeaseMagnets as a software engineering intern through the Digital Summer Clinic"
+date: "2026-06-20"
+type: log
+categories: ["Internship", "Digital Summer Clinic"]
 ---
 
-First post. Before I write about anything else, a quick note on how this blog is
-built — because the way I publish is itself part of what I want to show.
+This week I started as a software engineering intern at **tour.video / LeaseMagnets**,
+an Ann Arbor company that builds interactive video tours and an AI leasing assistant
+for apartment and rental websites. The internship is part of my participation in the
+**Digital Summer Clinic**, a summer program through Ann Arbor SPARK.
 
-## Why not a hosted platform?
-
-Plenty of great hosted blogging platforms exist, and they're a perfectly fine
-choice. I went a different route on purpose. My core strengths are **coding** and
-**analytics**, so I wanted the way I publish to be evidence of that, not just a
-place to talk about it. Instead of a hosted editor, this site is a small software
-project:
-
-- **Astro** turns plain Markdown into a clean, fast website — static HTML by
-  default, with interactive components dropped in only where a post actually needs
-  them. No database, no plugins to keep patched — just text files I can version
-  and diff.
-- **GitHub** stores the source. Every change is a commit with a message, so the
-  blog has a full history.
-- **GitHub Actions** rebuilds and deploys the site automatically every time I
-  push. I never click "publish" — `git push` *is* publishing.
-- **GitHub Pages** hosts it for free.
-
-Writing a post is now the same motion as shipping code: edit a Markdown file,
-commit, push, and ~60 seconds later it's live.
-
-## Measuring from day one
-
-I wired in **Google Analytics 4** before the first reader ever arrived, with a
-lightweight cookie-consent banner so it's transparent about tracking.
-
-Practicing analytics on something I actually own — watching which posts get read,
-where readers come from, how the links between my profiles perform — is a far
-better way to learn the tooling than studying it in the abstract.
-
-## What's coming
-
-Each week I'll post about one of three things:
-
-1. **The work** — what I'm building and shipping (in general terms where I need to
-   respect confidentiality).
-2. **What I'm learning** — analytics, AI tooling, and the craft of building for
-   the web.
-3. **The reading** — interesting things from industry sources like eMarketer,
-   Moz, and AdAge that change how I think about digital.
-
-If you're here, welcome. New post every week.
+The last week was mostly about getting to know the company, i.e., meeting the team, sitting
+in on calls, and getting set up. From here, my work will be mostly technical, and mostly
+web development. Right now I'm helping build the company's market intelligence
+platform, which shows property managers how they compare to nearby competitors. I'll
+write more about it in the weeks ahead.
