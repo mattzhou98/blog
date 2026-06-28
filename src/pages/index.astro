@@ -4,29 +4,29 @@ import { getCollection } from 'astro:content';
 import GradientDescent from '../components/GradientDescent.tsx';
 import { u } from '../lib/paths';
 
-// BUILD-TIME data: counted once at build and baked straight into the HTML.
-// No client fetch, no "—" placeholder flash (contrast the Quarto instrument).
+// Posts, newest first, for the "recent" listing below.
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
-const count = posts.length;
-const latestISO = posts[0]?.data.date.toISOString().slice(0, 10) ?? '—';
-const totalWords = posts.reduce((n, p) => n + (p.body ?? '').split(/\s+/).filter(Boolean).length, 0);
 ---
 <BaseLayout title="matthew.zhou — Field Notes">
   <section class="hero">
+    <aside class="island" style="flex:0 0 300px;align-self:flex-start;margin:0">
+      <p class="k">whoami</p>
+      <div style="display:flex;gap:.8rem;align-items:center;margin-bottom:.75rem">
+        <img src={u('profile.jpg')} alt="Matthew Zhou" width="64" height="64"
+             style="border-radius:12px;object-fit:cover;border:1px solid var(--fn-line);flex:0 0 auto" />
+        <div style="min-width:0">
+          <div style="font-family:var(--fn-display);font-weight:700;font-size:1.05rem;letter-spacing:-.01em">Matthew Zhou</div>
+        </div>
+      </div>
+      <p style="margin:0;font-size:.82rem;line-height:1.55;color:var(--fn-ink)">Master of Applied Data Science student at the University of Michigan with a BS in Computer Science. I build machine learning pipelines and data processing systems in Python and C++.</p>
+    </aside>
     <div class="hero-main">
       <p class="tag3"><span class="c">code</span><span class="x">×</span><span class="d">data</span><span class="x">×</span><span class="a">AI</span></p>
       <h1 class="hero-title">Field&nbsp;Notes</h1>
       <p class="hero-sub">Just another dev blog.</p>
     </div>
-    <aside class="island" style="flex:0 0 250px;align-self:stretch;margin:0">
-      <p class="k">instrument · build-time</p>
-      <div style="display:flex;justify-content:space-between;font-family:var(--fn-mono);font-size:.8rem;padding:.45rem 0;border-top:1px solid var(--fn-line-soft)"><span style="color:var(--fn-ink-muted)">posts</span><span>{count}</span></div>
-      <div style="display:flex;justify-content:space-between;font-family:var(--fn-mono);font-size:.8rem;padding:.45rem 0;border-top:1px solid var(--fn-line-soft)"><span style="color:var(--fn-ink-muted)">latest</span><span>{latestISO}</span></div>
-      <div style="display:flex;justify-content:space-between;font-family:var(--fn-mono);font-size:.8rem;padding:.45rem 0;border-top:1px solid var(--fn-line-soft)"><span style="color:var(--fn-ink-muted)">words</span><span>{totalWords.toLocaleString('en-US')}</span></div>
-      <div style="display:flex;justify-content:space-between;font-family:var(--fn-mono);font-size:.72rem;padding:.45rem 0;border-top:1px solid var(--fn-line-soft);color:var(--fn-teal-ink)"><span>baked at build</span><span>✓ no fetch</span></div>
-    </aside>
   </section>
 
   <p class="section-label">recent</p>
