@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import Life from '../components/Life.tsx';
+import GradientDescent from '../components/GradientDescent.tsx';
 import { u } from '../lib/paths';
 
 // BUILD-TIME data: counted once at build and baked straight into the HTML.
@@ -18,7 +18,7 @@ const totalWords = posts.reduce((n, p) => n + (p.body ?? '').split(/\s+/).filter
     <div class="hero-main">
       <p class="tag3"><span class="c">code</span><span class="x">×</span><span class="d">data</span><span class="x">×</span><span class="a">AI</span></p>
       <h1 class="hero-title">Field&nbsp;Notes</h1>
-      <p class="hero-sub">Building for the web, measuring what matters, and applying AI/ML — with interactive islands and runnable code right in the page. <strong>One post a week.</strong></p>
+      <p class="hero-sub">Just another dev blog.</p>
     </div>
     <aside class="island" style="flex:0 0 250px;align-self:stretch;margin:0">
       <p class="k">instrument · build-time</p>
@@ -28,9 +28,6 @@ const totalWords = posts.reduce((n, p) => n + (p.body ?? '').split(/\s+/).filter
       <div style="display:flex;justify-content:space-between;font-family:var(--fn-mono);font-size:.72rem;padding:.45rem 0;border-top:1px solid var(--fn-line-soft);color:var(--fn-teal-ink)"><span>baked at build</span><span>✓ no fetch</span></div>
     </aside>
   </section>
-
-  <p class="section-label">try it — conway's game of life</p>
-  <Life client:visible />
 
   <p class="section-label">recent</p>
   <div class="commit-log">
@@ -45,4 +42,6 @@ const totalWords = posts.reduce((n, p) => n + (p.body ?? '').split(/\s+/).filter
       </a>
     ))}
   </div>
+  <p class="section-label">For those who want something to play with</p>
+  <GradientDescent client:visible />
 </BaseLayout>
