@@ -1,23 +1,24 @@
 ---
-title: "From the Number to the Source: Live Reviews in the Market Intelligence Platform"
-description: "Colored review dots and live in-platform Google reviews so property managers can go from a reputation score straight to the feedback behind it"
+title: "Adding Live Reviews to the Market Intelligence Platform"
+description: "Each property now has a row of review dots and its full Google reviews built right in, so managers can read the feedback behind the score without leaving the platform"
 date: "2026-06-27"
 type: feat
 categories: ["Internship", "Digital Summer Clinic"]
 ---
 
-A week into my internship at **tour.video / LeaseMagnets**, I've been building on the
-market intelligence platform I mentioned last time — the tool that shows property managers
-how their reviews stack up against nearby competitors. Until now it could tell you whether a
-property's reputation was strong or slipping, but not *why*. This week I shipped the feature
-that closes that gap.
+A week into my internship at **tour.video / LeaseMagnets**, I've kept working on the
+market intelligence platform I mentioned last time. It shows property managers how their
+reviews compare to nearby competitors. So far it could tell you whether a property's
+reputation was strong or slipping, but it couldn't tell you what people were actually
+saying. That's what I added this week.
 
-Every property now has a row of colored dots showing its 7 most recent reviews at a glance —
-green for happy, red for unhappy — and each dot is clickable to read that review. Next to them
-is a **View Reviews** button that opens the property's full, live Google reviews right inside
-the platform, with no jumping out to Google. From there a manager can read everything and
-narrow it down fast: sort by newest or by rating, or filter to just the 1- and 2-star reviews
-to see exactly what people are unhappy about.
+Each property now shows its 7 most recent reviews as a row of colored dots, green for happy
+and red for unhappy, and you can click any dot to read that review. Next to them there's a
+**View Reviews** button that opens the property's full Google reviews right inside the
+platform, so you never have to jump out to Google. From there you can read all of them and
+narrow things down quickly: sort by newest or by rating, or show only the 1- and 2-star
+reviews to see what people are complaining about.
 
-The idea is simple — get managers from the number straight to the source, so they can read
-real feedback and act on it in seconds instead of hunting for it. More soon.
+Before this, a low score meant opening Google in another tab and digging around to figure
+out why. Now the reviews sit right next to the number, so managers can read them and act on
+them without going looking. More soon.
